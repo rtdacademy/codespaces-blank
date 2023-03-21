@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Line Visualization</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.3.0/jsxgraph.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.3.0/jsxgraphcore.js"></script>
+</head>
+<body>
+  <div id="box" class="jxgbox" style="width: 600px; height: 600px;"></div>
+  <script>
+   // Create the board
+const board = JXG.JSXGraph.initBoard('box', {
+  boundingbox: [-10, 10, 10, -10],
+  axis: true,
+  grid: true,
+});
+
+// Create a point for the y-intercept (b)
+const yIntercept = board.create('point', [0, 1], {
+  name: 'b',
+  size: 4,
+  color: 'blue',
+  fixed: false,
+});
+
+// Create a point to control the slope (m)
+const slopeControl = board.create('point', [1, 1], {
+  name: 'm',
+  size: 4,
+  color: 'green',
+  fixed: false,
+});
+
+// Define a function to calculate the line equation
+const lineFunction = (x) => {
+  const m = slopeControl.Y() / slopeControl.X();
+  const b = yIntercept.Y();
+  return m * x + b;
+};
+
+// Create the line
+const line = board.create('functiongraph', [lineFunction, -10, 10], {
+  strokeWidth: 2,
+  strokeColor: 'red',
+});
+
+// Update the line when the control points are moved
+board.on('move', () => {
+  line.update();
+  board.update();
+});
+  </script>
+</body>
+</html>
