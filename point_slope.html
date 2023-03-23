@@ -2,88 +2,40 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Introduction to Logs</title>
+    <title>Point-Slope Form Interaction</title>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
     <script type="text/javascript" charset="UTF-8" src="https://cdn.jsdelivr.net/npm/jsxgraph@1.4.4/distrib/jsxgraphcore.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.4.4/distrib/jsxgraph.css" />
-    <!-- The next line is optional: MathJax -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.4.4/distrib/jsxgraph.css" />
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
-    <link rel="stylesheet" type="text/css" href="stylejsx.css">
   </head>
   <body>
 
-    
-      <div id="j2" class="jxgbox"></div>
+    <div id="jxgbox" class="jxgbox"></div>
 
-  <script>
-  JXG.Options.text.useMathJax = true;
+    <script>
+      JXG.Options.text.useMathJax = true;
 
-var board = JXG.JSXGraph.initBoard('j2', {
-  boundingbox: [-5, 20, 5, -7],
-  axis: true,
-  showCopyright: false,
-  showNavigation: false,
-  pan:{enabled:false}
-});
+      var board = JXG.JSXGraph.initBoard('jxgbox', {
+        boundingbox: [-10, 10, 10, -10],
+        axis: true,
+        showCopyright: false,
+        showNavigation: false,
+        pan: { enabled: false }
+      });
 
-var a = board.create('slider', [
-  [-4, 18],
-  [-2, 18],
-  [-5, 1, 15]
-], {
-  snapWidth: 0.2,
-  name: 'a',
-  color:'red'
-});
+      var point1 = board.create('point', [1, 3], {name: 'P', color: 'blue', fixed: false});
+      var point2 = board.create('point', [4, 7], {name: 'Q', color: 'red', fixed: false});
 
-var b = board.create('slider', [
-  [-4, 16],
-  [-2, 16],
-  [0.01, 2, 4]
-], {
-  snapWidth: 0.01,
-  name: 'b',
-  color:'green'
-});
+      var line = board.create('line', [point1, point2], {strokeWidth: 2, straightFirst: false, straightLast: false});
 
-var k = board.create('slider', [
-  [-4, 14],
-  [-2, 14],
-  [-5, 0, 15]
-], {
-  snapWidth: 1,
-  name: 'k',
-  color:'purple'
-});
+      board.create('text', [-9, 9, function() {
+        var dx = point2.X() - point1.X();
+        var dy = point2.Y() - point1.Y();
+        var m = dy / dx;
+        return '\\[y - ' + point1.Y().toFixed(2) + ' = ' + m.toFixed(2) + '(x - ' + point1.X().toFixed(2) + ')\\]';
+      }], {fontSize: 20, fixed: true, anchorY: 'top'});
 
-var graph = board.create('functiongraph',
-  [function(x){return a.Value()*JXG.Math.pow(b.Value(),x)+k.Value()},-4.7,4.5],{
-  firstArrow:true,
-  lastArrow:true,
-  strokeWidth:3,
-  });
+    </script>
 
-  var line = board.create('line',[[-5,function(){return k.Value()}],[5,function(){return k.Value()}]],{color:'green',dash:2})
-
-board.create('text',[-4, 13,
-function() {
-return '\\[y ='+a.Value().toFixed(1)+' (' + b.Value().toFixed(2) + ')^x +'+k.Value()+'\\]';
-}],
-{fontSize: 20,
-fixed:true,
-anchorY:'top'
-});
-
-var p = board.create('point',[0,function(){return a.Value()+k.Value()}],{name:function(){return '\\[(0,'+this.Y().toFixed(1)+')\\]'}});
-
-var button1 = board.create('button',[-3,9,'Reset', function(){return a.setValue(1),b.setValue(2),k.setValue(0)}],{fixed:true});
-
-
-var im = board.create('image',["https://www.mrkylebrown.com/Images/Logo.jpg", [2,15], [2.5,3] ], {
-opacity:1,
-fixed:true
-});
-</script>
-
-</body>
+  </body>
 </html>

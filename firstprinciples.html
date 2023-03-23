@@ -1,0 +1,94 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>First Principles</title>
+	
+  <script type="text/javascript" charset="UTF-8" src="https://cdn.jsdelivr.net/npm/jsxgraph@1.4.4/distrib/jsxgraphcore.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.4.4/distrib/jsxgraph.css" />
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+
+<body>
+	<div id='outer' style='max-width: 450px; margin: 0 auto;'>
+<div id='jxgbox' class='jxgbox' style='height: 0; padding-bottom: 100%'></div>
+</div>
+
+
+<script language="Javascript" type='text/javascript'>
+	JXG.Options.text.useMathJax = true;
+JXG.Options.point.color = 'blue';
+JXG.Options.point.size = 3;
+	
+var board = JXG.JSXGraph.initBoard('jxgbox', {
+    axis:true,
+    boundingbox:[-0.5,4,5,-0.5],
+    fullscreen: { id: 'outer' },
+    showFullscreen: false,
+	axis: false,
+    showCopyright: false,
+    showNavigation: false,
+    pan:{enabled:false}
+});
+	
+var xax = board.create('axis', [[0, 0], [1, 0]]);
+xax.removeAllTicks();
+
+var yax = board.create('axis', [[0, 0], [0, 1]]);
+yax.removeAllTicks();
+
+
+	
+var graph = board.create('functiongraph',
+  ['-(x-2.5)^2+3',-4.7,10],{
+  firstArrow:false,
+  lastArrow:false,
+  strokeWidth:3,
+  });
+	
+
+	
+	
+var P = board.create('glider',[1,0.5,graph],{fixed:true,name:"",showInfobox:false})
+var Pt = board.create('text',[0.1,0.5,function(){return "\\[P(a,f(a))\\]"}],{fixed:true})
+var graph2 = board.create('functiongraph',
+  ['-(x-2.5)^2+3',function(){return P.X()},3],{
+  firstArrow:false,
+  lastArrow:false,
+  strokeWidth:3,
+  });	
+
+var Q = board.create('glider',[2,2.5,graph2],{showInfobox:false,color:'red',fixed:false,name:function(){return "\\[Q(x,f(x))\\]"}})
+var a = board.create('point',[function(){return Q.X()},function(){return P.Y()}],{visible:false})
+var lv = board.create('segment',[Q,a],{color:'orange'})	
+var lh = board.create('segment',[P,a],{color:'orange'})	
+var line = board.create('line',[P,Q],{color:'green'})
+
+var av = board.create('segment',[[function(){return Q.X()+0.2},function(){return P.Y()}],[function(){return Q.X()+0.2},function(){return Q.Y()}]],{firstArrow:true,lastArrow:true,withLabel:true,name:function(){return "\\[f(x)-f(a)\\]"}})
+
+var pa = board.create('point',[P.X(),0],{size:1,color:'orange',fixed:true,showInfobox:false,name:function(){return "\\[a\\]"}})
+var la = board.create('segment',[P,pa],{color:'orange',dash:2})
+
+var px = board.create('point',[function(){return Q.X()},0],{size:1,color:'orange',fixed:true,showInfobox:false,name:function(){return "\\[x\\]"}})
+var lx = board.create('segment',[a,px],{color:'orange',dash:2})
+
+
+var ah = board.create('segment',[[function(){return P.X()},function(){return P.Y()-0.2}],[function(){return Q.X()},function(){return P.Y()-0.2}]],{firstArrow:true,lastArrow:true,withLabel:false,name:function(){return "\\[f(x)-f(a)\\]"}})
+//var text = board.create('text',[function(){return (P.X()+a.X())/2-0.2},0.2,function(){return "\\[x-a\\]"}])
+
+
+
+
+var im = board.create('image',["https://edge.rtdlearning.com/rtdapps/Applets31/Math30-1Edge-online-2-logo-black.png", [3.4,3.4], [1.4,0.4] ], {
+opacity:1,
+fixed:true
+});
+	
+</script>
+	
+	
+	
+</script>
+</body>
+</html>
